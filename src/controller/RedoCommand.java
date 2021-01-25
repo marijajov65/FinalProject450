@@ -6,8 +6,8 @@ import view.interfaces.PaintCanvasBase;
 
 public class RedoCommand implements ICommand {
     @Override
-    public void run(PaintCanvasBase canvas, ApplicationState appState) {
-        CommandHistory.redo(canvas, appState);
+    public void run() {
+        CommandHistory.redo();
     }
 }
 

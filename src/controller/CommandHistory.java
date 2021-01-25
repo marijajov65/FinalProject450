@@ -20,7 +20,7 @@ class CommandHistory {
         //redoStack.clear();
     }
 
-    public static boolean undo(PaintCanvasBase base, ApplicationState appState) {
+    public static boolean undo() {
 
         boolean result = !undoStack.empty();
         if (result) {
@@ -31,7 +31,7 @@ class CommandHistory {
         return result;
     }
 
-    public static boolean redo(PaintCanvasBase base, ApplicationState appState) {
+    public static boolean redo() {
         boolean result = !redoStack.empty();
         if (result) {
             IUndoable c = redoStack.pop();
@@ -41,28 +41,4 @@ class CommandHistory {
         return result;
     }
 
-    public static boolean createShape(PaintCanvasBase canvas, ApplicationState appState) {
-        ShapeColor primaryColor = appState.getActivePrimaryColor();
-        ShapeType type = appState.getActiveShapeType();
-        ShapeColor secondaryColor = appState.getActiveSecondaryColor();
-        ShapeShadingType shadingType = appState.getActiveShapeShadingType();
-        MouseMode mouseMode = appState.getActiveMouseMode();
-/*
-        IShape sb = new ShapeBuilder()
-                .setPrimaryColor(primaryColor)
-                .setSecondaryColor(secondaryColor)
-                .setShadingType(shadingType)
-                .setMouseMode(mouseMode)
-                .setType(type)
-                .setStart(start)
-                .setEnd(end)
-                .setHeight(Math.abs(end.getY() - start.getY()))
-                .setWidth(Math.abs(end.getX() - start.getX()))
-                .setCanvas(canvas)
-                .buildShape();
-
- */
-return true;
-    }
 }
-

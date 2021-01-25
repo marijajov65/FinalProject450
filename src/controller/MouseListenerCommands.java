@@ -28,14 +28,14 @@ public class MouseListenerCommands extends MouseAdapter {
                 if(button.equalsIgnoreCase("UNDO")){
                     command = new UndoCommand();
                     try {
-                        command.run(this.canvas, appState);
+                        command.run();
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
                 }else if(button.equalsIgnoreCase("REDO")){
                     command = new RedoCommand();
                     try {
-                        command.run(this.canvas, appState);
+                        command.run();
                     } catch (IOException ioException) {
                         ioException.printStackTrace();
                     }
