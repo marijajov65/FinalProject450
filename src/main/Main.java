@@ -1,9 +1,10 @@
 package main;
 
-import controller.IJPaintController;
-import controller.JPaintController;
+import controller.*;
 import model.ShapeType;
+import model.interfaces.ICommand;
 import model.persistence.ApplicationState;
+import view.EventName;
 import view.gui.Gui;
 import view.gui.GuiWindow;
 import view.gui.PaintCanvas;
@@ -19,8 +20,15 @@ public class Main {
         IGuiWindow guiWindow = new GuiWindow(paintCanvas);
         IUiModule uiModule = new Gui(guiWindow);
         ApplicationState appState = new ApplicationState(uiModule);
+        ShapeList sl = new ShapeList(paintCanvas);
+        MouseListener ml = new MouseListener(appState, paintCanvas);
+        paintCanvas.addMouseListener(ml);
+        MouseListenerCommands mlc = new MouseListenerCommands(appState,sl, paintCanvas);
         IJPaintController controller = new JPaintController(uiModule, appState);
+        guiWindow.getButton(EventName.UNDO).addMouseListener(mlc);
+        guiWindow.getButton(EventName.REDO).addMouseListener(mlc);
         controller.setup();
+
 
         // For example purposes only; remove all lines below from your final project.
 
