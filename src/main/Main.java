@@ -38,6 +38,7 @@ public class Main {
             e.printStackTrace();
         }
 
+        /*
         // Filled in rectangle
         Graphics2D graphics2d = paintCanvas.getGraphics2D();
         graphics2d.setColor(Color.GREEN);
@@ -53,5 +54,7 @@ public class Main {
         graphics2d.setStroke(stroke);
         graphics2d.setColor(Color.BLACK);
         graphics2d.drawRect(7, 8, 210, 410);
+
+         */
     }
 }

@@ -59,13 +59,11 @@ public class Rectangle implements IShape,IUndoable {
 
     @Override
     public void undo() {
-        canvas.getGraphics2D().clearRect(0,0,canvas.getWidth(),canvas.getHeight());
         ShapeList.pop();
     }
 
     @Override
     public void redo() {
-        canvas.getGraphics2D().clearRect(0,0,canvas.getWidth(),canvas.getHeight());
         ShapeList.push(this);
     }
 }
