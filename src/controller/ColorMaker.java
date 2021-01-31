@@ -3,7 +3,15 @@ package controller;
 import model.ShapeColor;
 import java.awt.*;
 
+//singleton pattern
 public class ColorMaker {
+    private static ColorMaker colorMaker = new ColorMaker();
+
+    private ColorMaker(){}
+
+    public static ColorMaker getColorMaker(){
+        return colorMaker;
+    }
     public Color getColor(ShapeColor color){
         switch(color){
             case BLUE:
@@ -11,7 +19,7 @@ public class ColorMaker {
             case GREEN:
                 return new Color(15, 213, 15);
             case YELLOW:
-                return new Color(217, 208, 40);
+                return new Color(255, 254, 131);
             case RED:
                 return new Color(220, 11, 11);
             case CYAN:

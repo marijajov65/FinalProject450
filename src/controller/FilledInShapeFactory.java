@@ -1,12 +1,17 @@
 package controller;
 
+import controller.AbstractFactory;
+import controller.Point;
+import controller.shapes.FilledInEllipse;
+import controller.shapes.FilledInRectangle;
+import controller.shapes.FilledInTriangle;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 
-public class FilledInShapeFactory extends AbstractFactory{
+public class FilledInShapeFactory extends AbstractFactory {
 
     @Override
     IShape getShape(Point start, Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas) {

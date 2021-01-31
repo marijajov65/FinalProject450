@@ -1,5 +1,7 @@
-package controller;
+package controller.shapes;
 
+import controller.ColorMaker;
+import controller.Point;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
@@ -9,14 +11,14 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 
 public class OutlinedTriangle extends Shape implements IShape {
-    public OutlinedTriangle(Point start, Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas) {
+    public OutlinedTriangle(controller.Point start, Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas) {
         super(start, end, width, height, shapeType, primaryColor, secondaryColor, shadingType, canvas);
     }
 
     @Override
     public void draw(PaintCanvasBase b) {
         Graphics2D graphics2d = b.getGraphics2D();
-        ColorMaker cm = new ColorMaker();
+        ColorMaker cm = ColorMaker.getColorMaker();
         Color color = cm.getColor(super.getPrimaryColor());
         graphics2d.setColor(color);
         graphics2d.setStroke(new BasicStroke(5));

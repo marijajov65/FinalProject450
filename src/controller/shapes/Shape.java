@@ -1,5 +1,7 @@
-package controller;
+package controller.shapes;
 
+import controller.Point;
+import controller.ShapeList;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
@@ -10,8 +12,8 @@ import view.interfaces.PaintCanvasBase;
 import java.awt.*;
 
 public abstract class Shape implements IUndoable {
-    private Point start;
-    private Point end;
+    private controller.Point start;
+    private controller.Point end;
     private int width;
     private int height;
     private ShapeType shapeType;
@@ -20,7 +22,7 @@ public abstract class Shape implements IUndoable {
     private ShapeShadingType shadingType;
     private PaintCanvasBase canvas;
 
-    public Shape(Point start, Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas) {
+    public Shape(controller.Point start, controller.Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas) {
         this.start = start;
         this.end = end;
         this.width = width;
@@ -32,7 +34,7 @@ public abstract class Shape implements IUndoable {
         this.canvas = canvas;
     }
 
-    public Point getStart(){
+    public controller.Point getStart(){
         return start;
     }
     public Point getEnd(){

@@ -1,5 +1,8 @@
 package controller;
 
+import controller.shapes.OutlinedEllipse;
+import controller.shapes.OutlinedRectangle;
+import controller.shapes.OutlinedTriangle;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;

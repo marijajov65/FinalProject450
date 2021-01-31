@@ -4,6 +4,7 @@ import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
 import model.interfaces.IShape;
+
 import view.interfaces.PaintCanvasBase;
 
 public abstract class AbstractFactory {
