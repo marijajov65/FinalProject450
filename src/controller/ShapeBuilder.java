@@ -67,7 +67,9 @@ public class ShapeBuilder {
             case RECTANGLE:
                 return new Rectangle(start, end,width,height, shapeType, primaryColor, secondaryColor, shadingType, canvas);
             case ELLIPSE:
-                return new Ellipse(start, end,width,height, shapeType, primaryColor, secondaryColor, shadingType);
+                return new Ellipse(start, end,width,height, shapeType, primaryColor, secondaryColor, shadingType,canvas);
+            case TRIANGLE:
+                return new Triangle(start, end,width,height, shapeType, primaryColor, secondaryColor, shadingType,canvas);
         }
         throw new IllegalArgumentException();
     }

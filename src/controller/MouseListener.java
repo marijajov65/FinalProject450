@@ -1,4 +1,5 @@
 package controller;
+
 import model.MouseMode;
 import model.ShapeColor;
 import model.ShapeShadingType;
@@ -23,7 +24,7 @@ public class MouseListener extends MouseAdapter {
     private PaintCanvasBase canvas;
 
 
-    public MouseListener(ApplicationState appState, PaintCanvasBase paintCanvas){
+    public MouseListener(ApplicationState appState, PaintCanvasBase paintCanvas) {
         this.appState = appState;
         this.canvas = paintCanvas;
     }
@@ -36,49 +37,42 @@ public class MouseListener extends MouseAdapter {
     @Override
     public void mouseReleased(MouseEvent e) {
         end = new Point(e.getX(), e.getY());
-        if(start.getX()!=end.getX() || end.getY()!= start.getY()) {
 
+        //get current state
+        ShapeColor primaryColor = appState.getActivePrimaryColor();
+        ShapeType shapeType = appState.getActiveShapeType();
+        ShapeColor secondaryColor = appState.getActiveSecondaryColor();
+        ShapeShadingType shadingType = appState.getActiveShapeShadingType();
+        MouseMode mouseMode = appState.getActiveMouseMode(); //draw,select,move
 
-        /*
-        ICommand command = new CreateShapeCommand(); //could be undo, redo, create shape
-        try {
-            command.run(canvas, this);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
+        //Create abstract factory and add the shape
+        AbstractFactory shapeFactory = FactoryProducer.getFactory(shadingType);
+        IShape shape = shapeFactory.getShape(start, end, Math.abs(start.getX()-end.getX()), Math.abs(start.getY()-end.getY()), shapeType, primaryColor, secondaryColor, shadingType, canvas);
+        shape.draw(canvas);
+        ShapeList.push(shape);
+        CommandHistory.add(shape);
+/*
+        //create the shape
+        IShape sb = new ShapeBuilder()
+                .setPrimaryColor(primaryColor)
+                .setSecondaryColor(secondaryColor)
+                .setShadingType(shadingType)
+                .setMouseMode(mouseMode)
+                .setType(shapeType)
+                .setStart(start)
+                .setEnd(end)
+                .setHeight(Math.abs(end.getY() - start.getY()))
+                .setWidth(Math.abs(end.getX() - start.getX()))
+                .setCanvas(canvas)
+                .buildShape();
+
+        //recognizes which shape it is and invokes that draw method
+        if (e.getSource() instanceof PaintCanvasBase) {
+            sb.draw((PaintCanvasBase) e.getSource());
+            ShapeList.push(sb);
+            CommandHistory.add(sb);
         }
-*/
-            //create Shape command
 
-            //get current state
-            ShapeColor primaryColor = appState.getActivePrimaryColor();
-            ShapeType type = appState.getActiveShapeType();
-            ShapeColor secondaryColor = appState.getActiveSecondaryColor();
-            ShapeShadingType shadingType = appState.getActiveShapeShadingType();
-            MouseMode mouseMode = appState.getActiveMouseMode();
-
-            //get release coordinates
-
-
-            //create the shape
-            IShape sb = new ShapeBuilder()
-                    .setPrimaryColor(primaryColor)
-                    .setSecondaryColor(secondaryColor)
-                    .setShadingType(shadingType)
-                    .setMouseMode(mouseMode)
-                    .setType(type)
-                    .setStart(start)
-                    .setEnd(end)
-                    .setHeight(Math.abs(end.getY() - start.getY()))
-                    .setWidth(Math.abs(end.getX() - start.getX()))
-                    .setCanvas(canvas)
-                    .buildShape();
-
-            //recognizes which shape it is and invokes that draw method
-            if (e.getSource() instanceof PaintCanvasBase) {
-                sb.draw((PaintCanvasBase) e.getSource());
-                ShapeList.push(sb);
-                CommandHistory.add(sb);
-            }
-        }
+ */
     }
 }

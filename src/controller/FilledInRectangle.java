@@ -1,22 +1,19 @@
 package controller;
 
-
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
-import model.interfaces.ICommand;
 import model.interfaces.IShape;
-import model.interfaces.IUndoable;
 import view.interfaces.PaintCanvasBase;
+
 import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
 
-public class Rectangle extends Shape implements IShape {
+public class FilledInRectangle extends Shape implements IShape {
 
-    public Rectangle(Point start, Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas){
+    public FilledInRectangle(Point start, Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas){
         super(start, end,width,height, shapeType, primaryColor, secondaryColor, shadingType, canvas);
     }
+
     @Override
     public void draw(PaintCanvasBase b) {
         Graphics2D graphics2d = b.getGraphics2D();
@@ -35,7 +32,4 @@ public class Rectangle extends Shape implements IShape {
         }
     }
 
-    public String toString(){
-        return "Rectangle";
-    }
 }
