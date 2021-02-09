@@ -94,6 +94,7 @@ class CommandHistory {
         ArrayList<IShape> toAdd = new ArrayList<>();
         for(IShape shape: ShapeList.getList()){
             if(ShapeListSelected.getList().contains(shape)){
+                ShapeListSelected.getList().remove(shape);
                 Shape s = (Shape)shape;
                 /*
                 int startXCoo = s.getStart().getX();
@@ -115,6 +116,7 @@ class CommandHistory {
                 ns.setEnd(p.getX()+ns.getEnd().getX(),p.getY()+ns.getEnd().getY());
                 toAdd.add((IShape) ns);
                 toRemove.add(shape);
+                ShapeListSelected.getList().add((IShape) ns);
             }
         }
         ShapeList.getList().removeAll(toRemove);
@@ -131,7 +133,6 @@ class CommandHistory {
         }
         add(mc);
         sd.render(ShapeList.getList(),MoveOffset.getCanvas());
-        ShapeListSelected.clearAll();
         return true;
     }
 
