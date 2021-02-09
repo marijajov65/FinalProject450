@@ -11,7 +11,7 @@ import view.interfaces.PaintCanvasBase;
 
 import java.awt.*;
 
-public abstract class Shape implements IUndoable {
+public abstract class Shape implements IUndoable, Cloneable {
     private controller.Point start;
     private controller.Point end;
     private int width;
@@ -65,6 +65,7 @@ public abstract class Shape implements IUndoable {
 
     @Override
     public void undo() {
+        System.out.println("shape undo");
         ShapeList.pop();
     }
 
@@ -72,4 +73,27 @@ public abstract class Shape implements IUndoable {
     public void redo() {
         ShapeList.push((IShape)this);
     }
+
+    public void setStart(int x,int y){
+        Point p = new Point(x,y);
+        start = p;
+    }
+    public void setEnd(int x,int y){
+        Point p = new Point(x,y);
+        end = p;
+    }
+
+    public void setWidth(int w){
+        width = w;
+    }
+
+    public void setHeight(int h){
+        height = h;
+    }
+
+    public Object clone()throws CloneNotSupportedException{
+        return super.clone();
+    }
+
+
 }

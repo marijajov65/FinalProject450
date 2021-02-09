@@ -21,6 +21,7 @@ public class Main {
         IUiModule uiModule = new Gui(guiWindow);
         ApplicationState appState = new ApplicationState(uiModule);
         ShapeList sl = new ShapeList(paintCanvas);
+        ShapeListSelected selected = new ShapeListSelected(paintCanvas);
         MouseListener ml = new MouseListener(appState, paintCanvas);
         paintCanvas.addMouseListener(ml);
         MouseListenerCommands mlc = new MouseListenerCommands(appState,sl, paintCanvas);
