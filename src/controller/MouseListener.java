@@ -67,9 +67,7 @@ public class MouseListener extends MouseAdapter {
                 MoveOffset.setCanvas(canvas);
                 MoveOffset.setxOffset(end.getX()-start.getX());
                 MoveOffset.setyOffset(end.getY()-start.getY());
-                //CommandHistory.add(moveCommand);
                 moveCommand.run();
-
                 break;
         }
 

@@ -20,7 +20,6 @@ public class MC implements IUndoable {
 
     @Override
     public void undo() {
-        System.out.println("move undo");
         ShapeDrawer sd = new ShapeDrawer();
         ShapeList.getList().clear();
         for(IShape shape: list){
@@ -40,8 +39,6 @@ public class MC implements IUndoable {
 
     @Override
     public void redo() {
-        System.out.println("move redo");
-
         ShapeList.getList().clear();
         for(IShape shape: redoList){
             IShape newShape = null;

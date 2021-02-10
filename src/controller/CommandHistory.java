@@ -25,18 +25,11 @@ class CommandHistory {
     }
 
     public static boolean undo() {
-
-
         boolean result = !undoStack.empty();
         if (result) {
             IUndoable c = undoStack.pop();
             redoStack.push(c);
             c.undo();
-
-            System.out.println("undostack");
-            for(IUndoable i:undoStack){
-                System.out.println(i);
-            }
         }
         return result;
     }
@@ -47,10 +40,6 @@ class CommandHistory {
             IUndoable c = redoStack.pop();
             undoStack.push(c);
             c.redo();
-            System.out.println("redostack");
-            for(IUndoable i:redoStack){
-                System.out.println(i);
-            }
         }
         return result;
     }
@@ -60,15 +49,19 @@ class CommandHistory {
         FilledInRectangle boundingBox = ShapeListSelected.getBoundingBox();
         for(IShape shape:ShapeList.getList()){
             Shape s = (Shape)shape;
-            if(s.getStart().getX() < boundingBox.getStart().getX() + boundingBox.getWidth() &&
-                    s.getStart().getX() + s.getWidth() > boundingBox.getStart().getX() &&
-                    s.getStart().getY() < boundingBox.getStart().getY() + boundingBox.getHeight() &&
-                    s.getStart().getY() + s.getHeight() > boundingBox.getStart().getY()){
+            int sX = Math.min(s.getStart().getX(), s.getEnd().getX());
+            int sY = Math.min(s.getStart().getY(), s.getEnd().getY());
+            int bX = Math.min(boundingBox.getStart().getX(), boundingBox.getEnd().getX());
+            int bY = Math.min(boundingBox.getStart().getY(), boundingBox.getEnd().getY());
+            if(sX < bX + boundingBox.getWidth() &&
+                    sX + s.getWidth() > bX &&
+                    sY < bY + boundingBox.getHeight() &&
+                    sY + s.getHeight() > bY){
                     //collision
 
                 ShapeListSelected.push(shape);
-                System.out.println(shape);
             }
+
         }
         return true;
     }
@@ -77,7 +70,6 @@ class CommandHistory {
 
         MC mc = new MC();
         for(IShape shape: ShapeList.getList()){
-            System.out.println(shape);
             IShape newShape = null;
             try {
                 newShape = (IShape)(((Shape)shape).clone());
@@ -96,13 +88,6 @@ class CommandHistory {
             if(ShapeListSelected.getList().contains(shape)){
                 ShapeListSelected.getList().remove(shape);
                 Shape s = (Shape)shape;
-                /*
-                int startXCoo = s.getStart().getX();
-                int startYCoo = s.getStart().getY();
-                int endXCoo = s.getEnd().getX();
-                int endYCoo = s.getEnd().getY();
-
-                 */
                 Point p  = new Point(x,y);
 
                 IShape newShape = null;
