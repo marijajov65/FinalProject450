@@ -13,6 +13,10 @@ public class ShapeList {
     private static final ArrayList<IShape> list = new ArrayList<>();
     private static PaintCanvasBase canvas;
 
+    public static PaintCanvasBase getCanvas(){
+        return canvas;
+    }
+
     public ShapeList(PaintCanvasBase canvas){
         this.canvas = canvas;
     }

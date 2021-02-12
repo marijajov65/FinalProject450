@@ -24,10 +24,6 @@ public class ShapeListSelected {
         selectedList.add(shape);
     }
 
-    public static void pop() {
-        if (selectedList.isEmpty()) throw new EmptyStackException();
-        selectedList.remove(selectedList.size()-1);
-    }
 
     public static void clearAll() {
         selectedList.clear();

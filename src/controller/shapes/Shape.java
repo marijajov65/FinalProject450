@@ -65,7 +65,6 @@ public abstract class Shape implements IUndoable, Cloneable {
 
     @Override
     public void undo() {
-        System.out.println("shape undo");
         ShapeList.pop();
     }
 
@@ -82,6 +81,7 @@ public abstract class Shape implements IUndoable, Cloneable {
         Point p = new Point(x,y);
         end = p;
     }
+
 
     public void setWidth(int w){
         width = w;

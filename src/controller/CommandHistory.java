@@ -58,6 +58,8 @@ class CommandHistory {
                     sY < bY + boundingBox.getHeight() &&
                     sY + s.getHeight() > bY){
                     //collision
+                shape.outline();
+
 
                 ShapeListSelected.push(shape);
             }
@@ -118,6 +120,45 @@ class CommandHistory {
         }
         add(mc);
         sd.render(ShapeList.getList(),MoveOffset.getCanvas());
+        return true;
+    }
+
+    public static boolean copy(){
+        CopyCommand cc = new CopyCommand();
+        Clipboard.clearClipboard();
+        for(IShape shape:ShapeListSelected.getList()) {
+            Clipboard.addToClipBoard(shape);
+            //cc.addToRedoClipboard(shape);
+        }
+        //add(cc);
+        return true;
+    }
+
+    public static boolean paste(){
+        PasteCommand pc = new PasteCommand();
+        for(IShape shape: ShapeList.getList()){
+            pc.addToUndoListPaste(shape);
+        }
+        ArrayList<IShape> copiedItems = Clipboard.getCopiedItems();
+        ShapeList.getList().addAll(copiedItems);
+        for(IShape shape: ShapeList.getList()){
+            pc.addToRedoListPaste(shape);
+        }
+
+        pc.pasteFromClipboard();
+        add(pc);
+        return true;
+    }
+
+    public static boolean delete(){
+        DeleteCommand dc = new DeleteCommand();
+        for(IShape shape: ShapeListSelected.getList()){
+            dc.getToDeleteList().add(shape);
+        }
+        ShapeList.getList().removeAll(dc.getToDeleteList());
+        ShapeDrawer sd = new ShapeDrawer();
+        sd.render(ShapeList.getList(),ShapeList.getCanvas());
+        add(dc);
         return true;
     }
 
