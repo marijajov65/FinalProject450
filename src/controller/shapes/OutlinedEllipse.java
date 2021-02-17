@@ -60,6 +60,32 @@ public class OutlinedEllipse extends Shape implements IShape {
         }
     }
 
+    @Override
+    public void deselect() {
+        Stroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+        Graphics2D graphics2d = this.getPaintCanvasBase().getGraphics2D();
+        ColorMaker cm = ColorMaker.getColorMaker();
+        Color color = cm.getColor(ShapeColor.RED);
+        graphics2d.setColor(color);
+        graphics2d.setStroke(dashed);
+
+        if(super.getStart().getX()<super.getEnd().getX() && super.getStart().getY()>super.getEnd().getY()){
+
+            graphics2d.drawOval(super.getStart().getX()-5, super.getEnd().getY()-5, super.getWidth()+10, super.getHeight()+10);
+
+        }else if(super.getStart().getX()<super.getEnd().getX() && super.getStart().getY()<super.getEnd().getY()){
+
+            graphics2d.drawOval(super.getStart().getX()-5, super.getStart().getY()-5, super.getWidth()+10, super.getHeight()+10);
+        }else if(super.getStart().getX()>super.getEnd().getX() && super.getStart().getY()<super.getEnd().getY()){
+
+            graphics2d.drawOval(super.getEnd().getX()-5, super.getStart().getY()-5, super.getWidth()+10, super.getHeight()+10);
+        }else{
+
+            graphics2d.drawOval(super.getEnd().getX()-5, super.getEnd().getY()-5, super.getWidth()+10, super.getHeight()+10);
+
+        }
+    }
+
 }
 
 

@@ -58,9 +58,6 @@ class CommandHistory {
                     sY < bY + boundingBox.getHeight() &&
                     sY + s.getHeight() > bY){
                     //collision
-                shape.outline();
-
-
                 ShapeListSelected.push(shape);
             }
 

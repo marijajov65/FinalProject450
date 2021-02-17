@@ -15,17 +15,20 @@ public class ShapeListSelected {
     private static FilledInRectangle boundingBox;
 
     public ShapeListSelected(PaintCanvasBase canvas){
-
         this.canvas = canvas;
     }
 
     public static void push(IShape shape) {
         if (shape == null) throw new IllegalArgumentException();
+        shape.outline();
         selectedList.add(shape);
     }
 
 
     public static void clearAll() {
+        for(IShape shape:selectedList){
+            shape.deselect();
+        }
         selectedList.clear();
     }
 

@@ -26,16 +26,5 @@ public class Clipboard {
         return new ArrayList<>(copiedItems);
     }
 
-/*
-    public static void pasteFromClipboard(){
-        ShapeDrawer sd = new ShapeDrawer();
-        for(IShape shape: copiedItems){
-            ShapeList.getList().add(shape);
-        }
-        sd.drawSelected(copiedItems,ShapeList.getCanvas());
-    }
-
-*/
-
 
 }

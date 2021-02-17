@@ -15,13 +15,6 @@ public class CopyCommand implements ICommand, IUndoable {
         CommandHistory.copy();
     }
 
-    /*
-    public void addToRedoClipboard(IShape shape){
-        redoClipboard.add(shape);
-    }
-
-     */
-
     @Override
     public void undo() {
         Clipboard.clearClipboard();

@@ -10,8 +10,16 @@ public class JPaintController implements IJPaintController {
 
 
     public JPaintController(IUiModule uiModule, IApplicationState applicationState) {
-        this.uiModule = uiModule;
-        this.applicationState = applicationState;
+        if(uiModule==null){
+            this.uiModule = new NullUIModule();
+        }else{
+            this.uiModule = uiModule;
+        }
+        if(applicationState ==null){
+            this.applicationState = new NullApplicationState();
+        }else{
+            this.applicationState = applicationState;
+        }
     }
 
     @Override

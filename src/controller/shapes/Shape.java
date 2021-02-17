@@ -23,6 +23,7 @@ public abstract class Shape implements IUndoable, Cloneable {
     private PaintCanvasBase canvas;
 
     public Shape(controller.Point start, controller.Point end, int width, int height, ShapeType shapeType, ShapeColor primaryColor, ShapeColor secondaryColor, ShapeShadingType shadingType, PaintCanvasBase canvas) {
+
         this.start = start;
         this.end = end;
         this.width = width;
@@ -81,7 +82,6 @@ public abstract class Shape implements IUndoable, Cloneable {
         Point p = new Point(x,y);
         end = p;
     }
-
 
     public void setWidth(int w){
         width = w;
