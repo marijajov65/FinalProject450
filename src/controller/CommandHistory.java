@@ -1,6 +1,7 @@
 package controller;
 
 import controller.shapes.FilledInRectangle;
+import controller.shapes.OutlinedShape;
 import controller.shapes.Shape;
 import model.MouseMode;
 import model.ShapeColor;
@@ -46,6 +47,8 @@ class CommandHistory {
 
     public static boolean select(){
         ShapeListSelected.clearAll();
+        ShapeDrawer sd = new ShapeDrawer();
+        sd.render(ShapeList.getList(), ShapeList.getCanvas());
         FilledInRectangle boundingBox = ShapeListSelected.getBoundingBox();
         for(IShape shape:ShapeList.getList()){
             Shape s = (Shape)shape;
@@ -59,8 +62,8 @@ class CommandHistory {
                     sY + s.getHeight() > bY){
                     //collision
                 ShapeListSelected.push(shape);
+                ShapeListSelected.outline();
             }
-
         }
         return true;
     }
@@ -85,6 +88,7 @@ class CommandHistory {
         ArrayList<IShape> toAdd = new ArrayList<>();
         for(IShape shape: ShapeList.getList()){
             if(ShapeListSelected.getList().contains(shape)){
+                mc.getUndoSelectedList().add(shape);
                 ShapeListSelected.getList().remove(shape);
                 Shape s = (Shape)shape;
                 Point p  = new Point(x,y);
@@ -99,6 +103,7 @@ class CommandHistory {
                 ns.setStart(p.getX()+ns.getStart().getX(),p.getY()+ns.getStart().getY());
                 ns.setEnd(p.getX()+ns.getEnd().getX(),p.getY()+ns.getEnd().getY());
                 toAdd.add((IShape) ns);
+                mc.getRedoSelectedList().add((IShape) ns);
                 toRemove.add(shape);
                 ShapeListSelected.getList().add((IShape) ns);
             }
@@ -117,6 +122,9 @@ class CommandHistory {
         }
         add(mc);
         sd.render(ShapeList.getList(),MoveOffset.getCanvas());
+        ShapeListSelected.outline();
+
+
         return true;
     }
 
@@ -141,8 +149,10 @@ class CommandHistory {
         for(IShape shape: ShapeList.getList()){
             pc.addToRedoListPaste(shape);
         }
-
         pc.pasteFromClipboard();
+        for(IShape shape: ShapeListSelected.getList()){
+            pc.addToSelectedPaste(shape);
+        }
         add(pc);
         return true;
     }
@@ -150,11 +160,16 @@ class CommandHistory {
     public static boolean delete(){
         DeleteCommand dc = new DeleteCommand();
         for(IShape shape: ShapeListSelected.getList()){
-            dc.getToDeleteList().add(shape);
+            for(IShape s: ShapeList.getList()){
+                if(((Shape)shape).equals((Shape)s)){
+                    dc.getToDeleteList().add(s);
+                }
+            }
         }
         ShapeList.getList().removeAll(dc.getToDeleteList());
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(ShapeList.getList(),ShapeList.getCanvas());
+
         add(dc);
         return true;
     }

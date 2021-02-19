@@ -9,3 +9,4 @@ public interface IShape extends IUndoable{
     public void outline();
     public void deselect();
 }
+

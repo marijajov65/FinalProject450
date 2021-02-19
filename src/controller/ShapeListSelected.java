@@ -1,9 +1,11 @@
 package controller;
 
 import controller.shapes.FilledInRectangle;
+import controller.shapes.Shape;
 import model.interfaces.IShape;
 import view.interfaces.PaintCanvasBase;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.EmptyStackException;
 
@@ -20,8 +22,16 @@ public class ShapeListSelected {
 
     public static void push(IShape shape) {
         if (shape == null) throw new IllegalArgumentException();
-        shape.outline();
         selectedList.add(shape);
+    }
+
+
+    public static void outline()  {
+        ShapeDrawer sd = new ShapeDrawer();
+        sd.render(ShapeList.getList(),ShapeList.getCanvas());
+        for(IShape shape:selectedList){
+            shape.outline();
+        }
     }
 
 

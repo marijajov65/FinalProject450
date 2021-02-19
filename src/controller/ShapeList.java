@@ -29,7 +29,6 @@ public class ShapeList {
 
     public static void pop() {
         if (list.isEmpty()) throw new EmptyStackException();
-
         list.remove(list.size()-1);
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(list,canvas);

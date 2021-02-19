@@ -24,12 +24,20 @@ public class DeleteCommand implements ICommand, IUndoable {
         ShapeList.getList().addAll(toDelete);
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(ShapeList.getList(),ShapeList.getCanvas());
+        for(IShape shape:toDelete){
+            ShapeListSelected.getList().add(shape);
+            shape.outline();
+        }
     }
 
     @Override
     public void redo() {
+        System.out.println(ShapeList.getList().size());
         ShapeList.getList().removeAll(toDelete);
+        ShapeListSelected.getList().removeAll(toDelete);
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(ShapeList.getList(),ShapeList.getCanvas());
+        System.out.println(ShapeList.getList().size());
+
     }
 }

@@ -16,6 +16,7 @@ public class Clipboard {
             e.printStackTrace();
         }
         newShape.setStart(newShape.getStart().getX()+50,newShape.getStart().getY()+50);
+        newShape.setEnd(newShape.getEnd().getX()+50,newShape.getEnd().getY()+50);
         copiedItems.add((IShape) newShape);
     }
 

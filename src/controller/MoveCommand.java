@@ -26,7 +26,7 @@ public class MoveCommand implements ICommand, IUndoable {
 
     @Override
     public void undo() {
-        System.out.println("move undo");
+        //System.out.println("move undo");
         for(IShape shape: selected){
             Shape s = (Shape)shape;
             int startXCoo = s.getStart().getX();

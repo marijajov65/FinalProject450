@@ -2,6 +2,7 @@ package controller.shapes;
 
 import controller.Point;
 import controller.ShapeList;
+import controller.ShapeListSelected;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
@@ -67,6 +68,7 @@ public abstract class Shape implements IUndoable, Cloneable {
     @Override
     public void undo() {
         ShapeList.pop();
+
     }
 
     @Override
@@ -93,6 +95,19 @@ public abstract class Shape implements IUndoable, Cloneable {
 
     public Object clone()throws CloneNotSupportedException{
         return super.clone();
+    }
+
+    public boolean equals(Shape shape){
+        if(this.getStart().getX() == shape.getStart().getX()
+        && this.getEnd().getX() == shape.getEnd().getX()
+        && this.getStart().getY() == shape.getStart().getY()
+        && this.getEnd().getY()==shape.getEnd().getY()
+        && this.getWidth() == shape.getWidth()
+        && this.getHeight() == shape.getHeight()
+        ){
+            return true;
+        }
+        return false;
     }
 
 
