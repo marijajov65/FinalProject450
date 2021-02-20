@@ -85,29 +85,34 @@ class CommandHistory {
         int x = MoveOffset.getxOffset();
         int y = MoveOffset.getyOffset();
         ArrayList<IShape> toRemove = new ArrayList<>();
+        ArrayList<IShape> toRemoveSelected = new ArrayList<>();
         ArrayList<IShape> toAdd = new ArrayList<>();
-        for(IShape shape: ShapeList.getList()){
-            if(ShapeListSelected.getList().contains(shape)){
-                mc.getUndoSelectedList().add(shape);
-                ShapeListSelected.getList().remove(shape);
-                Shape s = (Shape)shape;
-                Point p  = new Point(x,y);
+        for(IShape shape: ShapeList.getList()) {
+            for (IShape sh : ShapeListSelected.getList()) {
+                if (((Shape) sh).equals((Shape) (shape))) {
 
-                IShape newShape = null;
-                try {
-                    newShape = (IShape)(s).clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
+                    mc.getUndoSelectedList().add(shape);
+                    Shape s = (Shape) shape;
+                    Point p = new Point(x, y);
+
+                    IShape newShape = null;
+                    try {
+                        newShape = (IShape) (s).clone();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                    Shape ns = (Shape) newShape;
+                    ns.setStart(p.getX() + ns.getStart().getX(), p.getY() + ns.getStart().getY());
+                    ns.setEnd(p.getX() + ns.getEnd().getX(), p.getY() + ns.getEnd().getY());
+                    toAdd.add((IShape) ns);
+                    mc.getRedoSelectedList().add((IShape) ns);
+                    toRemove.add(shape);
+                    toRemoveSelected.add(sh);
                 }
-                Shape ns = (Shape)newShape;
-                ns.setStart(p.getX()+ns.getStart().getX(),p.getY()+ns.getStart().getY());
-                ns.setEnd(p.getX()+ns.getEnd().getX(),p.getY()+ns.getEnd().getY());
-                toAdd.add((IShape) ns);
-                mc.getRedoSelectedList().add((IShape) ns);
-                toRemove.add(shape);
-                ShapeListSelected.getList().add((IShape) ns);
             }
         }
+        ShapeListSelected.getList().removeAll(toRemoveSelected);
+        ShapeListSelected.getList().addAll(toAdd);
         ShapeList.getList().removeAll(toRemove);
         ShapeList.getList().addAll(toAdd);
 
@@ -133,9 +138,7 @@ class CommandHistory {
         Clipboard.clearClipboard();
         for(IShape shape:ShapeListSelected.getList()) {
             Clipboard.addToClipBoard(shape);
-            //cc.addToRedoClipboard(shape);
         }
-        //add(cc);
         return true;
     }
 
