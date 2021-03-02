@@ -7,8 +7,13 @@ import java.util.ArrayList;
 
 public class Clipboard {
     private static ArrayList<IShape> copiedItems = new ArrayList<IShape>();
+    private static Clipboard instance = new Clipboard();
+    private Clipboard(){ }
+    public static Clipboard getInstance(){
+        return instance;
+    }
 
-    public static void addToClipBoard(IShape shape){
+    public void addToClipBoard(IShape shape){
         Shape newShape = null;
         try {
             newShape = (Shape)((Shape)shape).clone();
@@ -20,10 +25,10 @@ public class Clipboard {
         copiedItems.add((IShape) newShape);
     }
 
-    public static void clearClipboard(){
+    public void clearClipboard(){
         copiedItems.clear();
     }
-    public static ArrayList<IShape> getCopiedItems(){
+    public ArrayList<IShape> getCopiedItems(){
         return new ArrayList<>(copiedItems);
     }
 

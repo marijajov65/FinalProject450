@@ -135,9 +135,9 @@ class CommandHistory {
 
     public static boolean copy(){
         CopyCommand cc = new CopyCommand();
-        Clipboard.clearClipboard();
+        Clipboard.getInstance().clearClipboard();
         for(IShape shape:ShapeListSelected.getList()) {
-            Clipboard.addToClipBoard(shape);
+            Clipboard.getInstance().addToClipBoard(shape);
         }
         return true;
     }
@@ -147,7 +147,7 @@ class CommandHistory {
         for(IShape shape: ShapeList.getList()){
             pc.addToUndoListPaste(shape);
         }
-        ArrayList<IShape> copiedItems = Clipboard.getCopiedItems();
+        ArrayList<IShape> copiedItems = Clipboard.getInstance().getCopiedItems();
         ShapeList.getList().addAll(copiedItems);
         for(IShape shape: ShapeList.getList()){
             pc.addToRedoListPaste(shape);

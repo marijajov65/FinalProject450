@@ -17,13 +17,13 @@ public class CopyCommand implements ICommand, IUndoable {
 
     @Override
     public void undo() {
-        Clipboard.clearClipboard();
+        Clipboard.getInstance().clearClipboard();
     }
 
     @Override
     public void redo() {
         for(IShape shape: redoClipboard){
-            Clipboard.addToClipBoard(shape);
+            Clipboard.getInstance().addToClipBoard(shape);
         }
 
     }
