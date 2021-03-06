@@ -18,8 +18,9 @@ public class ShapeDrawer {
     }
 
     public void drawSelected(ArrayList<IShape> list, PaintCanvasBase canvas){
-        Graphics2D graphics2d = canvas.getGraphics2D();
-        graphics2d.setStroke(new BasicStroke(5));
+        //Graphics2D graphics2d = canvas.getGraphics2D();
+        //graphics2d.setColor(new Color(155,155,255));
+        //graphics2d.setStroke(new BasicStroke(5));
         for(IShape shape: list){
             shape.draw(canvas);
         }

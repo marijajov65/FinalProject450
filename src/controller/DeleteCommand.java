@@ -32,12 +32,10 @@ public class DeleteCommand implements ICommand, IUndoable {
 
     @Override
     public void redo() {
-        System.out.println(ShapeList.getList().size());
         ShapeList.getList().removeAll(toDelete);
         ShapeListSelected.getList().removeAll(toDelete);
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(ShapeList.getList(),ShapeList.getCanvas());
-        System.out.println(ShapeList.getList().size());
 
     }
 }

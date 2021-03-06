@@ -32,25 +32,19 @@ public class MC implements IUndoable {
         ShapeDrawer sd = new ShapeDrawer();
         ShapeList.getList().clear();
         for(IShape shape: list){
-            /*
-            IShape newShape = null;
-            try {
-                newShape = (IShape)(((Shape)shape).clone());
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-
-             */
             ShapeList.getList().add(shape);
-            shape.outline();
+            //shape.outline();
         }
         sd.render(list,MoveOffset.getCanvas());
         ShapeListSelected.getList().clear();
+
 
         for(IShape shape:undoSelected){
             ShapeListSelected.getList().add(shape);
             shape.outline();
         }
+
+
     }
 
     @Override

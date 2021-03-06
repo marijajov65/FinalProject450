@@ -21,9 +21,13 @@ public class CopyCommand implements ICommand, IUndoable {
     }
 
     @Override
-    public void redo() {
+    public void redo(){
         for(IShape shape: redoClipboard){
-            Clipboard.getInstance().addToClipBoard(shape);
+            try {
+                Clipboard.getInstance().addToClipBoard(shape);
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }
 
     }

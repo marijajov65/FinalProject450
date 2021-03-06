@@ -1,5 +1,6 @@
 package controller;
 
+import controller.shapes.Group;
 import controller.shapes.Shape;
 import model.interfaces.IShape;
 
@@ -13,23 +14,21 @@ public class Clipboard {
         return instance;
     }
 
-    public void addToClipBoard(IShape shape){
-        Shape newShape = null;
-        try {
-            newShape = (Shape)((Shape)shape).clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-        newShape.setStart(newShape.getStart().getX()+50,newShape.getStart().getY()+50);
+    public void addToClipBoard(IShape shape) throws CloneNotSupportedException {
+        IShape newShape = (IShape)(shape).clone();
+        newShape.setStart(newShape.getStart().getX()+50, newShape.getStart().getY()+50);
         newShape.setEnd(newShape.getEnd().getX()+50,newShape.getEnd().getY()+50);
-        copiedItems.add((IShape) newShape);
+        if(newShape instanceof Group){
+            ((Group)newShape).moveChildren();
+        }
+        copiedItems.add(newShape);
     }
 
     public void clearClipboard(){
         copiedItems.clear();
     }
     public ArrayList<IShape> getCopiedItems(){
-        return new ArrayList<>(copiedItems);
+        return copiedItems;
     }
 
 

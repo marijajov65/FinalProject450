@@ -97,7 +97,9 @@ public abstract class Shape implements IUndoable, Cloneable {
         return super.clone();
     }
 
-    public boolean equals(Shape shape){
+    public boolean equals(IShape s){
+        if(!(s instanceof Shape))return false;
+        Shape shape = (Shape)s;
         if(this.getStart().getX() == shape.getStart().getX()
         && this.getEnd().getX() == shape.getEnd().getX()
         && this.getStart().getY() == shape.getStart().getY()
@@ -109,6 +111,19 @@ public abstract class Shape implements IUndoable, Cloneable {
         }
         return false;
     }
+
+    public void move(int x,int y){
+        Shape shape = (Shape)this;
+        shape.setStart(x + shape.getStart().getX(), y + shape.getStart().getY());
+        shape.setEnd(x+ shape.getEnd().getX(), y + shape.getEnd().getY());
+
+    }
+
+    public void ungroup(){
+        //do nothing
+    }
+
+
 
 
 }

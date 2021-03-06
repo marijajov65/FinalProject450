@@ -61,6 +61,22 @@ public class MouseListenerCommands extends MouseAdapter {
                 ioException.printStackTrace();
             }
         }
+        else if (button.equalsIgnoreCase("GROUP")) {
+            command = new GroupCommand();
+            try {
+                command.run();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+        else if (button.equalsIgnoreCase("UNGROUP")) {
+            command = new UngroupCommand();
+            try {
+                command.run();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
 
     }
 }

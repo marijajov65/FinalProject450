@@ -1,7 +1,6 @@
 package controller;
 
-import controller.shapes.FilledInRectangle;
-import controller.shapes.OutlinedShape;
+import controller.shapes.*;
 import controller.shapes.Shape;
 import model.MouseMode;
 import model.ShapeColor;
@@ -12,6 +11,7 @@ import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
 
+import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -51,25 +51,24 @@ class CommandHistory {
         sd.render(ShapeList.getList(), ShapeList.getCanvas());
         FilledInRectangle boundingBox = ShapeListSelected.getBoundingBox();
         for(IShape shape:ShapeList.getList()){
-            Shape s = (Shape)shape;
-            int sX = Math.min(s.getStart().getX(), s.getEnd().getX());
-            int sY = Math.min(s.getStart().getY(), s.getEnd().getY());
+            int sX = Math.min(shape.getStart().getX(), shape.getEnd().getX());
+            int sY = Math.min(shape.getStart().getY(), shape.getEnd().getY());
             int bX = Math.min(boundingBox.getStart().getX(), boundingBox.getEnd().getX());
             int bY = Math.min(boundingBox.getStart().getY(), boundingBox.getEnd().getY());
             if(sX < bX + boundingBox.getWidth() &&
-                    sX + s.getWidth() > bX &&
+                    sX + shape.getWidth() > bX &&
                     sY < bY + boundingBox.getHeight() &&
-                    sY + s.getHeight() > bY){
+                    sY + shape.getHeight() > bY){
                     //collision
+
                 ShapeListSelected.push(shape);
-                ShapeListSelected.outline();
+                shape.outline();
             }
         }
         return true;
     }
 
     public static boolean move(){
-
         MC mc = new MC();
         for(IShape shape: ShapeList.getList()){
             IShape newShape = null;
@@ -78,8 +77,16 @@ class CommandHistory {
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
+            catch (ClassCastException c){
+                try {
+                    newShape = (IShape) (((Group) shape).clone());
+                }catch(CloneNotSupportedException ee) {
+                    ee.printStackTrace();
+                }
+            }
             mc.getList().add(newShape);
         }
+
 
         ShapeDrawer sd = new ShapeDrawer();
         int x = MoveOffset.getxOffset();
@@ -87,25 +94,28 @@ class CommandHistory {
         ArrayList<IShape> toRemove = new ArrayList<>();
         ArrayList<IShape> toRemoveSelected = new ArrayList<>();
         ArrayList<IShape> toAdd = new ArrayList<>();
+
         for(IShape shape: ShapeList.getList()) {
             for (IShape sh : ShapeListSelected.getList()) {
-                if (((Shape) sh).equals((Shape) (shape))) {
-
+                if (sh.equals(shape)) {
                     mc.getUndoSelectedList().add(shape);
-                    Shape s = (Shape) shape;
-                    Point p = new Point(x, y);
 
                     IShape newShape = null;
                     try {
-                        newShape = (IShape) (s).clone();
+                        newShape = (IShape)(((Shape)shape).clone());
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }
-                    Shape ns = (Shape) newShape;
-                    ns.setStart(p.getX() + ns.getStart().getX(), p.getY() + ns.getStart().getY());
-                    ns.setEnd(p.getX() + ns.getEnd().getX(), p.getY() + ns.getEnd().getY());
-                    toAdd.add((IShape) ns);
-                    mc.getRedoSelectedList().add((IShape) ns);
+                    catch (ClassCastException c){
+                        try {
+                            newShape = (IShape) (((Group) shape).clone());
+                        }catch(CloneNotSupportedException ee) {
+                            ee.printStackTrace();
+                        }
+                    }
+                    newShape.move(x,y);
+                    toAdd.add(newShape);
+                    mc.getRedoSelectedList().add(newShape);
                     toRemove.add(shape);
                     toRemoveSelected.add(sh);
                 }
@@ -123,6 +133,13 @@ class CommandHistory {
             } catch (CloneNotSupportedException e) {
                 e.printStackTrace();
             }
+            catch (ClassCastException c){
+                try {
+                    newShape = (IShape) (((Group) shape).clone());
+                }catch(CloneNotSupportedException ee) {
+                    ee.printStackTrace();
+                }
+            }
             mc.getRedoList().add(newShape);
         }
         add(mc);
@@ -134,10 +151,13 @@ class CommandHistory {
     }
 
     public static boolean copy(){
-        CopyCommand cc = new CopyCommand();
         Clipboard.getInstance().clearClipboard();
         for(IShape shape:ShapeListSelected.getList()) {
-            Clipboard.getInstance().addToClipBoard(shape);
+            try {
+                Clipboard.getInstance().addToClipBoard(shape);
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }
         return true;
     }
@@ -164,7 +184,7 @@ class CommandHistory {
         DeleteCommand dc = new DeleteCommand();
         for(IShape shape: ShapeListSelected.getList()){
             for(IShape s: ShapeList.getList()){
-                if(((Shape)shape).equals((Shape)s)){
+                if(shape.equals(s)){
                     dc.getToDeleteList().add(s);
                 }
             }
@@ -177,6 +197,71 @@ class CommandHistory {
         return true;
     }
 
+    public static boolean group(){
+        if(ShapeListSelected.getList().size() == 0)return false;
+        Group newGroup = new Group();
+        IShape first = ShapeListSelected.getList().get(0);
+        //find selected shapes
+        int startX = first.getStart().getX();
+        int startY = first.getStart().getY();
+        int endX = first.getEnd().getX();
+        int endY = first.getEnd().getY();
 
+        ArrayList<IShape> toDeleteShapeList = new ArrayList<>();
+        ArrayList<IShape> toDeleteShapeListSelected = new ArrayList<>();
+
+        for(IShape shape: ShapeListSelected.getList()){
+            for(IShape s:ShapeList.getList()){
+                if(s.equals(shape)){
+                    toDeleteShapeList.add(s);
+                }
+            }
+            for(IShape s:ShapeListSelected.getList()){
+                if(s.equals(shape)){
+                    toDeleteShapeListSelected.add(s);
+                }
+            }
+            newGroup.addChild(shape);
+            int currStartX = shape.getStart().getX();
+            int currStartY = shape.getStart().getY();
+            int currEndX = shape.getEnd().getX();
+            int currEndY = shape.getEnd().getY();
+            if(currStartX<startX){
+                startX = currStartX;
+            }
+            if(currEndX>endX){
+                endX = currEndX;
+            }
+            if(currStartY<startY){
+                startY = currStartY;
+            }
+            if(currEndY>endY){
+                endY = currEndY;
+            }
+        }
+        newGroup.setStart(startX,startY);
+        newGroup.setEnd(endX,endY);
+        newGroup.setWidth(Math.abs(startX-endX));
+        newGroup.setHeight(Math.abs(startY-endY));
+
+        //add group
+
+        ShapeList.getList().removeAll(toDeleteShapeList);
+        ShapeListSelected.getList().removeAll(toDeleteShapeListSelected);
+        ShapeList.push(newGroup);
+        ShapeListSelected.push(newGroup);
+
+        newGroup.outline();
+
+        return true;
+    }
+
+    public static boolean ungroup(){
+        for(IShape shape: ShapeListSelected.getList()){
+            shape.ungroup();
+        }
+        ShapeListSelected.clearAll();
+        return true;
+    }
 
 }

@@ -30,6 +30,8 @@ public class Main {
         guiWindow.getButton(EventName.COPY).addMouseListener(mlc);
         guiWindow.getButton(EventName.PASTE).addMouseListener(mlc);
         guiWindow.getButton(EventName.DELETE).addMouseListener(mlc);
+        guiWindow.getButton(EventName.GROUP).addMouseListener(mlc);
+        guiWindow.getButton(EventName.UNGROUP).addMouseListener(mlc);
         controller.setup();
 
 
