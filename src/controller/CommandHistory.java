@@ -226,17 +226,30 @@ class CommandHistory {
             int currStartY = shape.getStart().getY();
             int currEndX = shape.getEnd().getX();
             int currEndY = shape.getEnd().getY();
+
             if(currStartX<startX){
                 startX = currStartX;
+            }
+            if(currEndX<startX){
+                startX = currEndX;
             }
             if(currEndX>endX){
                 endX = currEndX;
             }
+            if(currStartX>endX){
+                endX = currStartX;
+            }
             if(currStartY<startY){
                 startY = currStartY;
             }
+            if(currEndY<startY){
+                startY = currEndY;
+            }
             if(currEndY>endY){
                 endY = currEndY;
+            }
+            if(currStartY>endY){
+                endY = currStartY;
             }
         }
         newGroup.setStart(startX,startY);
