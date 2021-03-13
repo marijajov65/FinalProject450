@@ -68,7 +68,6 @@ public abstract class Shape implements IUndoable, Cloneable {
     @Override
     public void undo() {
         ShapeList.pop();
-
     }
 
     @Override

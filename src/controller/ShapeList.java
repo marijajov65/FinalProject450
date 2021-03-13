@@ -21,17 +21,27 @@ public class ShapeList {
     }
 
     public static void push(IShape shape) {
-        if (shape == null) throw new IllegalArgumentException();
+        if (shape == null) {
+            throw new IllegalArgumentException();
+        }
         list.add(shape);
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(list,canvas);
     }
 
     public static void pop() {
-        if (list.isEmpty()) throw new EmptyStackException();
+        if (list.isEmpty()) {
+            return;
+        }
+
+        for(IShape shape: ShapeList.getList()){
+            System.out.println(shape);
+        }
+        System.out.println(list.size());
         list.remove(list.size()-1);
         ShapeDrawer sd = new ShapeDrawer();
         sd.render(list,canvas);
+        System.out.println(list.size());
         }
 
         public static ArrayList<IShape> getList(){

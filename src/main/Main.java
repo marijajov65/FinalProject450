@@ -23,7 +23,7 @@ public class Main {
         ShapeList sl = new ShapeList(paintCanvas);
         MouseListener ml = new MouseListener(appState, paintCanvas);
         paintCanvas.addMouseListener(ml);
-        MouseListenerCommands mlc = new MouseListenerCommands(appState,sl, paintCanvas);
+        MouseListenerCommands mlc = new MouseListenerCommands();
         IJPaintController controller = new JPaintController(uiModule, appState);
         guiWindow.getButton(EventName.UNDO).addMouseListener(mlc);
         guiWindow.getButton(EventName.REDO).addMouseListener(mlc);

@@ -6,12 +6,13 @@ import controller.ShapeDrawer;
 import controller.ShapeList;
 import model.ShapeColor;
 import model.interfaces.IShape;
+import model.interfaces.IUndoable;
 import view.interfaces.PaintCanvasBase;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class Group implements IShape,Cloneable{
+public class Group implements IShape,Cloneable, IUndoable {
     private final ArrayList<IShape> children = new ArrayList<>();
     private controller.Point start;
     private controller.Point end;
@@ -83,6 +84,10 @@ public class Group implements IShape,Cloneable{
         return group;
     }
 
+    public ArrayList<IShape> getChildren(){
+        return children;
+    }
+
     @Override
     public void outline() {
         Graphics2D graphics2d = ShapeList.getCanvas().getGraphics2D();
@@ -141,12 +146,20 @@ public class Group implements IShape,Cloneable{
 
     @Override
     public void undo() {
-
+        ShapeDrawer sd = new ShapeDrawer();
+        ShapeList.getList().remove(this);
+        for(IShape shape: children){
+            ShapeList.getList().add(shape);
+        }
+        sd.render(ShapeList.getList(),ShapeList.getCanvas());
     }
 
     @Override
     public void redo() {
-
+        for(IShape shape: children){
+            ShapeList.getList().remove(shape);
+        }
+        ShapeList.push(this);
     }
 
     public void move(int x, int y){

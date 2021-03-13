@@ -1,4 +1,5 @@
 package controller;
+import controller.commands.*;
 import model.interfaces.ICommand;
 import model.persistence.ApplicationState;
 import view.interfaces.PaintCanvasBase;
@@ -9,16 +10,6 @@ import java.io.IOException;
 
 
 public class MouseListenerCommands extends MouseAdapter {
-    private ApplicationState appState;
-    private ShapeList sl;
-    private PaintCanvasBase canvas;
-
-
-    public MouseListenerCommands(ApplicationState appState, ShapeList sl, PaintCanvasBase paintCanvas) {
-        this.appState = appState;
-        this.sl = sl;
-        this.canvas = paintCanvas;
-    }
 
     @Override
     public void mouseClicked(MouseEvent e) {

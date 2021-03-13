@@ -16,11 +16,22 @@ public class Clipboard {
 
     public void addToClipBoard(IShape shape) throws CloneNotSupportedException {
         IShape newShape = (IShape)(shape).clone();
+        if(newShape instanceof Group){
+            Group group = (Group)newShape;
+            for(IShape sh: group.getChildren()){
+                sh.setStart(sh.getStart().getX()+50, sh.getStart().getY()+50);
+                sh.setEnd(sh.getEnd().getX()+50,sh.getEnd().getY()+50);
+            }
+            newShape = group;
+        }
         newShape.setStart(newShape.getStart().getX()+50, newShape.getStart().getY()+50);
         newShape.setEnd(newShape.getEnd().getX()+50,newShape.getEnd().getY()+50);
+        /*
         if(newShape instanceof Group){
             ((Group)newShape).moveChildren();
         }
+
+         */
         copiedItems.add(newShape);
     }
 

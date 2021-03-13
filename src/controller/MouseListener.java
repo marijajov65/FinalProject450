@@ -1,22 +1,21 @@
 package controller;
 
+import controller.commands.CommandHistory;
+import controller.commands.MoveCommand;
+import controller.commands.SelectShapeCommand;
+import controller.factory.AbstractFactory;
+import controller.factory.FactoryProducer;
 import controller.shapes.FilledInRectangle;
 import model.MouseMode;
 import model.ShapeColor;
 import model.ShapeShadingType;
 import model.ShapeType;
-import model.interfaces.ICommand;
 import model.interfaces.IShape;
-import model.interfaces.IUndoable;
 import model.persistence.ApplicationState;
-import view.gui.PaintCanvas;
 import view.interfaces.PaintCanvasBase;
 
-import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 public class MouseListener extends MouseAdapter {
     private Point start;
@@ -63,11 +62,12 @@ public class MouseListener extends MouseAdapter {
                 break;
 
             case MOVE:
-                MoveCommand moveCommand = new MoveCommand(end.getX()-start.getX(),end.getY()-start.getY(), ShapeListSelected.getList());
+                //MoveCommand moveCommand = new MoveCommand(end.getX()-start.getX(),end.getY()-start.getY(), ShapeListSelected.getList());
+                MoveCommand mc = new MoveCommand();
                 MoveOffset.setCanvas(canvas);
                 MoveOffset.setxOffset(end.getX()-start.getX());
                 MoveOffset.setyOffset(end.getY()-start.getY());
-                moveCommand.run();
+                mc.run();
                 break;
         }
 
