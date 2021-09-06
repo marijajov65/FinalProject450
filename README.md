@@ -1,9 +1,13 @@
 Project Features:
 
 - Pick a shape
+
 o Ellipse
+
 o Triangle
+
 o Rectangle
+
 - Pick a primary color
 - Pick a secondary color
 - Select shading type (outline only, filled-in, outline and filled-in)
